@@ -7,3 +7,4 @@ class UtilsTestSuite(unittest.TestCase):
         b = b'1234'
         c = bytes2int(b)
         self.assertEqual(type(c), int)
+
