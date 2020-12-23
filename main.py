@@ -1,7 +1,7 @@
 import socket
 from app.utils import *
 
-client_num = 2
+node_num = 1
 
 if __name__ == '__main__':
     # create socket instance
@@ -14,7 +14,7 @@ if __name__ == '__main__':
     s.bind((host, port))
 
     s.listen(5)
-    print("waiting for client")
+    print("waiting for connect...")
 
     client_count = 0
     data_list = []
@@ -23,7 +23,7 @@ if __name__ == '__main__':
         # establish connect to the client
         c, addr = s.accept()
         data = c.recv(1024)
-        print("The calculation result of client {} is {}".format(addr, data))
+        print("The calculation result of node {} is {}".format(addr, data))
         data_list.append(bytes2int(data))
 
         c.send(bytes('OK', encoding='utf-8'))
@@ -31,8 +31,8 @@ if __name__ == '__main__':
         c.close()
 
         client_count += 1
-        if client_count == client_num:
-            print("All the clients process done")
+        if client_count == node_num:
+            print("All the nodes process done")
             break
 
     sum = sum(data_list)
