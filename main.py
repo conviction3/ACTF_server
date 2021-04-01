@@ -1,39 +1,20 @@
+from server import Server
 import socket
-from app.utils import *
+from app.utils import Logger
 
-node_num = 1
+log = Logger()
 
 if __name__ == '__main__':
-    # create socket instance
     s = socket.socket()
-    # local host name
     host = socket.gethostname()
-    # set local port
-    port = 12345
-    # bind local port to local host
+    port = 23457
     s.bind((host, port))
-
     s.listen(5)
-    print("waiting for connect...")
-
-    client_count = 0
-    data_list = []
-
-    while True:
-        # establish connect to the client
-        c, addr = s.accept()
-        data = c.recv(1024)
-        print("The calculation result of node {} is {}".format(addr, data))
-        data_list.append(bytes2int(data))
-
-        c.send(bytes('OK', encoding='utf-8'))
-        # close socket
-        c.close()
-
-        client_count += 1
-        if client_count == node_num:
-            print("All the nodes process done")
-            break
-
-    sum = sum(data_list)
-    print("Final result is: {}".format(sum))
+    log.info("""
+           ___   __________________   _____ __________ _    ____________ 
+          /   | / ____/_  __/ ____/  / ___// ____/ __ \ |  / / ____/ __ \\
+         / /| |/ /     / / / /_      \__ \/ __/ / /_/ / | / / __/ / /_/ /
+        / ___ / /___  / / / __/     ___/ / /___/ _, _/| |/ / /___/ _, _/ 
+       /_/  |_\____/ /_/ /_/       /____/_____/_/ |_| |___/_____/_/ |_|  
+    """)
+    server = Server(socket=s)
